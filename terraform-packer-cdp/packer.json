@@ -1,0 +1,30 @@
+{
+
+ "variables": {
+    "region": "",
+    "source_ami": ""
+  },
+
+ "builders": [
+    {
+      "type": "amazon-ebs",
+      "region": "{{ user `region` }}",
+      "source_ami": "{{ user `source_ami` }}",
+      "instance_type": "t2.micro",
+      "ssh_username": "ubuntu",
+      "ami_name": "Ubuntu CDP Server {{timestamp}}"
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "CDP",
+      "destination": "$HOME/CDP"
+    },
+    {
+      "type": "shell",
+      "inline": "sudo mv $HOME/CDP /etc/motd"
+    }
+  ]
+}
